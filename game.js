@@ -27,3 +27,30 @@ function updateMoney() {
   gameMoney.innerHTML = '$' + game$;
   realMoney.innerHTML = '$' + real$;
 }
+
+const STATUS = {
+  water: 0,
+  food: 0,
+  sleep: 0,
+  stress: 0,
+  health: 0,
+};
+
+const STATUS_MODS_PER_TICK = {
+  water: 100 / (3 * 60),
+  food: 100 / (10 * 60),
+  sleep: 100 / (5 * 60),
+  health: 100 / (20 * 60),
+  stress: 0,
+};
+
+const PLAYER_PAID = {};
+
+const PLAYER_BILLS = {
+  electric: 0,
+  rent: 0,
+  water: -1,
+  doctor: -1,
+  psychiatrist: -1,
+  television: -1,
+};
