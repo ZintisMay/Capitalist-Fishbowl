@@ -4,6 +4,7 @@ const room = document.getElementById('room');
 const workButton = document.getElementById('workButton');
 const realMoney = document.getElementById('realMoney');
 const gameMoney = document.getElementById('gameMoney');
+const blackout = document.getElementById('blackout');
 
 let isGameRunning = true;
 let timer = 0;
@@ -13,7 +14,22 @@ let real$ = 0;
 function gameLoop() {
   if (!isGameRunning) return;
   timer++;
+  checkBills();
   console.log('timer', timer);
+}
+
+function incrementBills() {
+  if (timer % 60 === 0) {
+  }
+}
+
+function checkBills() {
+  // console.log(PLAYER_BILLS);
+  if (PLAYER_BILLS.electric < 0) {
+    blackout.style.display = 'block';
+  } else {
+    blackout.style.display = 'none';
+  }
 }
 
 setInterval(gameLoop, 1000);
@@ -44,7 +60,14 @@ const STATUS_MODS_PER_TICK = {
   stress: 0,
 };
 
-const PLAYER_PAID = {};
+const PLAYER_BILLS_COST = {
+  electric: 0,
+  rent: 0,
+  water: -1,
+  doctor: -1,
+  psychiatrist: -1,
+  television: -1,
+};
 
 const PLAYER_BILLS = {
   electric: 0,
