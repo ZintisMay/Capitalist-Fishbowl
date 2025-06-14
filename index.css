@@ -1,0 +1,69 @@
+body {
+  padding: 0;
+  margin: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+}
+
+.flexCenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#statusBars {
+  width: 15vmin;
+  height: 100px;
+  background-color: red;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+#purchaseBars {
+  width: 15vmin;
+  height: 100px;
+  background-color: red;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+#room {
+  width: 70vmin;
+  height: 70vmin;
+  background-color: red;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+#realMoney {
+  width: 15vmin;
+  height: 100px;
+  background-color: red;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+#gameMoney {
+  width: 15vmin;
+  height: 100px;
+  background-color: red;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+#workButton {
+  position: absolute;
+  top: 50%;
+  left: 40%;
+  width: 20%;
+  border-radius: 50%;
+  border: 1px solid black;
+  height: 10%;
+  font-size: 30px;
+  font-weight: bold;
+  /* font-family: impact; */
+}
