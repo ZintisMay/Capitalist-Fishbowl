@@ -24,9 +24,9 @@ body {
 
 /* Game Regions */
 #statusBars {
+  flex-direction: column;
   width: 15vmin;
-  height: 100px;
-  background-color: red;
+  /* height: 100px; */
   position: absolute;
   top: 0;
   left: 0;

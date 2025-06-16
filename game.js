@@ -1,13 +1,18 @@
 import { warning } from './js/warning.js';
+import { jumpAnimation } from './js/jumpAnimation.js';
+import { displayStatusBars } from './js/displayStatusBars.js';
+import { playerDies, playerLives } from './js/playerDies.js';
 
 const statusBars = document.getElementById('statusBars');
 const purchaseBars = document.getElementById('purchaseBars');
 const room = document.getElementById('room');
-const workButton = document.getElementById('workButton');
 const realMoney = document.getElementById('realMoney');
 const gameMoney = document.getElementById('gameMoney');
 const warnings = document.getElementById('warnings');
 const blackout = document.getElementById('blackout');
+
+// furniture
+const workButton = document.getElementById('workButton');
 const bed = document.getElementById('bed');
 const lightbulb = document.getElementById('lightbulb');
 const shower = document.getElementById('shower');
@@ -22,12 +27,18 @@ let isGameRunning = true;
 let timer = 0;
 let game$ = 0;
 let real$ = 0;
-let jumpInterval = null;
+const TICK_INTERVAL = 1000;
+
+setInterval(gameLoop, TICK_INTERVAL);
 
 function gameLoop() {
   if (!isGameRunning) return;
   timer++;
-  checkBills();
+  displayStatusBars(PLAYER.STATUS);
+  for (let key in PLAYER.STATUS) {
+    PLAYER.STATUS[key].updateThisStat();
+    PLAYER.STATUS[key].warnPlayer();
+  }
   console.log('timer', timer);
 }
 
@@ -35,43 +46,12 @@ function incrementBills() {
   if (timer % 60 === 0) {
   }
 }
-
-function checkBills() {
-  // console.log(PLAYER_BILLS);
-  if (PLAYER_BILLS.electric < 0) {
-    blackout.style.display = 'block';
-  } else {
-    blackout.style.display = 'none';
-  }
-}
-
-function updateBills() {}
-
-setInterval(gameLoop, 1000);
-
 workButton.addEventListener('click', function () {
+  if (!isGameRunning) return;
   game$++;
   updateMoney();
-  warning('hi');
-  if (!jumpInterval) {
-    jumpInterval = jumpAnimation();
-  }
+  jumpAnimation();
 });
-
-function jumpAnimation() {
-  let frame = 0;
-  let direction = 1;
-  return setInterval(() => {
-    frame += direction;
-    if (frame >= 10) direction = -1;
-    if (frame < 0) {
-      clearInterval(jumpInterval);
-      jumpInterval = 0;
-      return;
-    }
-    person.style.transform = `translateY(-${1 * frame}%)`;
-  }, 10);
-}
 
 function updateMoney() {
   gameMoney.innerHTML = '$' + game$;
@@ -79,62 +59,101 @@ function updateMoney() {
 }
 
 function gameOver() {
-  alert('Game Over');
+  isGameRunning = false;
+  playerDies();
 }
 
-const STATUS = {
-  water: {
-    balance: 0,
-    costPerSecond: 0,
-    warnPlayer() {
-      if (this.balance <= 0) {
-      } else if (this.balance <= 20) {
-      } else {
-      }
+const PLAYER = {
+  STATUS: {
+    water: {
+      balance: 100,
+      color: 'blue',
+      costPerSecond: 100 / 60,
+      updateThisStat() {
+        this.balance -= this.costPerSecond;
+      },
+      warnPlayer() {
+        if (this.balance <= 0) {
+          gameOver();
+        } else if (this.balance <= 15) {
+          warning('You feel really thirsty');
+        } else if (this.balance <= 30) {
+          warning('You feel thirsty');
+        } else {
+        }
+      },
     },
-  },
-  food: {
-    balance: 0,
-    costPerSecond: 0,
-    warnPlayer() {
-      if (this.balance <= 0) {
-        gameOver();
-      } else if (this.balance <= 20) {
-      } else {
-      }
+    food: {
+      balance: 100,
+      color: 'green',
+      costPerSecond: 100 / 5 / 60,
+      updateThisStat() {
+        this.balance -= this.costPerSecond;
+      },
+      warnPlayer() {
+        if (this.balance <= 0) {
+          gameOver();
+        } else if (this.balance <= 15) {
+          warning('You feel really hungry');
+        } else if (this.balance <= 30) {
+          warning('You feel hungry');
+        } else {
+        }
+      },
     },
-  },
-  sleep: {
-    balance: 0,
-    costPerSecond: 0,
-    warnPlayer() {
-      if (this.balance <= 0) {
-        gameOver();
-      } else if (this.balance <= 20) {
-      } else {
-      }
+    sleep: {
+      balance: 100,
+      color: 'purple',
+      costPerSecond: 100 / 4 / 60,
+      updateThisStat() {
+        this.balance -= this.costPerSecond;
+      },
+      warnPlayer() {
+        if (this.balance <= 0) {
+          gameOver();
+        } else if (this.balance <= 15) {
+          warning('You feel really sleepy');
+        } else if (this.balance <= 30) {
+          warning('You feel sleepy');
+        } else {
+        }
+      },
     },
-  },
-  stress: {
-    balance: 0,
-    costPerSecond: 0,
-    warnPlayer() {
-      if (this.balance <= 0) {
-        gameOver();
-      } else if (this.balance <= 20) {
-      } else {
-      }
+    stress: {
+      balance: 100,
+      color: 'black',
+      costPerSecond: 100 / 30 / 60,
+      updateThisStat() {
+        this.balance -= this.costPerSecond;
+      },
+      warnPlayer() {
+        if (this.balance <= 0) {
+          gameOver();
+        } else if (this.balance <= 15) {
+          warning('You feel really stressed');
+        } else if (this.balance <= 30) {
+          warning('You feel stressed');
+        } else {
+        }
+      },
     },
-  },
-  health: {
-    balance: 0,
-    costPerSecond: 0,
-    warnPlayer() {
-      if (this.balance <= 0) {
-        gameOver();
-      } else if (this.balance <= 20) {
-      } else {
-      }
+    health: {
+      balance: 100,
+      color: 'red',
+      costPerSecond: 100 / 40 / 60,
+      updateThisStat() {
+        this.balance -= this.costPerSecond;
+      },
+      warnPlayer() {
+        if (this.balance <= 0) {
+          gameOver();
+        } else if (this.balance <= 15) {
+          warning('You feel really unwell');
+        } else if (this.balance <= 30) {
+          warning('You feel unwell');
+        } else {
+        }
+      },
     },
   },
   BILLS: {
@@ -154,14 +173,14 @@ const STATUS = {
     },
     water: {
       balance: 0,
-      costPerWeek: 20,
+      costPerWeek: 30,
       render() {
         water.style.display = this.balance > 0 ? 'none' : 'block';
       },
     },
     toilet: {
       balance: 0,
-      costPerWeek: 20,
+      costPerWeek: 30,
       render() {
         toilet.style.display = this.balance > 0 ? 'none' : 'block';
       },
@@ -195,30 +214,4 @@ const STATUS = {
       },
     },
   },
-};
-
-const STATUS_MODS_PER_TICK = {
-  water: 100 / (3 * 60),
-  food: 100 / (10 * 60),
-  sleep: 100 / (5 * 60),
-  health: 100 / (20 * 60),
-  stress: 0,
-};
-
-const PLAYER_BILLS_COST = {
-  electric: 0,
-  rent: 0,
-  water: -1,
-  doctor: -1,
-  psychiatrist: -1,
-  television: -1,
-};
-
-const PLAYER_BILLS = {
-  electric: 0,
-  rent: 0,
-  water: -1,
-  doctor: -1,
-  psychiatrist: -1,
-  television: -1,
 };
