@@ -1,9 +1,12 @@
+import { warning } from './js/warning.js';
+
 const statusBars = document.getElementById('statusBars');
 const purchaseBars = document.getElementById('purchaseBars');
 const room = document.getElementById('room');
 const workButton = document.getElementById('workButton');
 const realMoney = document.getElementById('realMoney');
 const gameMoney = document.getElementById('gameMoney');
+const warnings = document.getElementById('warnings');
 const blackout = document.getElementById('blackout');
 const bed = document.getElementById('bed');
 const lightbulb = document.getElementById('lightbulb');
@@ -42,11 +45,14 @@ function checkBills() {
   }
 }
 
+function updateBills() {}
+
 setInterval(gameLoop, 1000);
 
 workButton.addEventListener('click', function () {
   game$++;
   updateMoney();
+  warning('hi');
   if (!jumpInterval) {
     jumpInterval = jumpAnimation();
   }
@@ -72,12 +78,123 @@ function updateMoney() {
   realMoney.innerHTML = '$' + real$;
 }
 
+function gameOver() {
+  alert('Game Over');
+}
+
 const STATUS = {
-  water: 0,
-  food: 0,
-  sleep: 0,
-  stress: 0,
-  health: 0,
+  water: {
+    balance: 0,
+    costPerSecond: 0,
+    warnPlayer() {
+      if (this.balance <= 0) {
+      } else if (this.balance <= 20) {
+      } else {
+      }
+    },
+  },
+  food: {
+    balance: 0,
+    costPerSecond: 0,
+    warnPlayer() {
+      if (this.balance <= 0) {
+        gameOver();
+      } else if (this.balance <= 20) {
+      } else {
+      }
+    },
+  },
+  sleep: {
+    balance: 0,
+    costPerSecond: 0,
+    warnPlayer() {
+      if (this.balance <= 0) {
+        gameOver();
+      } else if (this.balance <= 20) {
+      } else {
+      }
+    },
+  },
+  stress: {
+    balance: 0,
+    costPerSecond: 0,
+    warnPlayer() {
+      if (this.balance <= 0) {
+        gameOver();
+      } else if (this.balance <= 20) {
+      } else {
+      }
+    },
+  },
+  health: {
+    balance: 0,
+    costPerSecond: 0,
+    warnPlayer() {
+      if (this.balance <= 0) {
+        gameOver();
+      } else if (this.balance <= 20) {
+      } else {
+      }
+    },
+  },
+  BILLS: {
+    electric: {
+      balance: 0,
+      costPerWeek: 30,
+      render() {
+        electric.style.display = this.balance > 0 ? 'none' : 'block';
+      },
+    },
+    rent: {
+      balance: 0,
+      costPerWeek: 150,
+      render() {
+        rent.style.display = this.balance > 0 ? 'none' : 'block';
+      },
+    },
+    water: {
+      balance: 0,
+      costPerWeek: 20,
+      render() {
+        water.style.display = this.balance > 0 ? 'none' : 'block';
+      },
+    },
+    toilet: {
+      balance: 0,
+      costPerWeek: 20,
+      render() {
+        toilet.style.display = this.balance > 0 ? 'none' : 'block';
+      },
+    },
+    // doctor: {
+    //   balance: 0,
+    //   costPerWeek: 150,
+    //   render() {
+    //     doctor.style.display = this.balance > 0 ? 'none' : 'block';
+    //   },
+    // },
+    // psychiatrist: {
+    //   balance: 0,
+    //   costPerWeek: 150,
+    //   render() {
+    //     psychiatrist.style.display = this.balance > 0 ? 'none' : 'block';
+    //   },
+    // },
+    television: {
+      balance: 0,
+      costPerWeek: 25,
+      render() {
+        television.style.display = this.balance > 0 ? 'none' : 'block';
+      },
+    },
+    music: {
+      balance: 0,
+      costPerWeek: 15,
+      render() {
+        speakers.style.display = this.balance > 0 ? 'none' : 'block';
+      },
+    },
+  },
 };
 
 const STATUS_MODS_PER_TICK = {
