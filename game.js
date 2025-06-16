@@ -68,7 +68,7 @@ const PLAYER = {
     water: {
       balance: 100,
       color: 'blue',
-      costPerSecond: 100 / 60,
+      costPerSecond: 100 / 30,
       updateThisStat() {
         this.balance -= this.costPerSecond;
       },
