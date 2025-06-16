@@ -39,6 +39,7 @@ body {
   right: 0;
 }
 #room {
+  outline: 1px solid black;
   width: 70vmin;
   height: 70vmin;
   background-color: red;
@@ -46,6 +47,10 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  background: url('./images/room.png');
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
 }
 #realMoney {
   width: 15vmin;
@@ -67,7 +72,7 @@ body {
 #workButton {
   position: absolute;
   zindex: 1000;
-  top: 50%;
+  top: 69%;
   left: 40%;
   width: 20%;
   border-radius: 50%;
@@ -82,4 +87,59 @@ body {
 #workButton:active {
   transform: translateY(3px);
   box-shadow: 0 2px 0 gray;
+}
+
+#bed {
+  position: absolute;
+  width: 28%;
+  top: 59%;
+  left: 63%;
+}
+#lightbulb {
+  position: absolute;
+  width: 10%;
+  top: 0%;
+  left: 37%;
+}
+#person {
+  position: absolute;
+  width: 10%;
+  top: 46%;
+  left: 49%;
+}
+#shower {
+  width: 16%;
+  position: absolute;
+  top: 31%;
+  left: 42%;
+}
+#sink {
+  width: 15%;
+  position: absolute;
+  top: 55%;
+  left: 20%;
+}
+#speakers {
+  width: 8%;
+  position: absolute;
+  top: 23%;
+  left: 83%;
+}
+#teevee {
+  width: 20%;
+  position: absolute;
+  top: 25%;
+  left: 20%;
+}
+#toilet {
+  width: 14%;
+  position: absolute;
+  top: 49%;
+  left: 31%;
+}
+#fridge {
+  position: absolute;
+  top: 48%;
+  left: 8%;
+  width: 16%;
 }
