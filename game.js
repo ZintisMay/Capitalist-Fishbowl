@@ -5,11 +5,21 @@ const workButton = document.getElementById('workButton');
 const realMoney = document.getElementById('realMoney');
 const gameMoney = document.getElementById('gameMoney');
 const blackout = document.getElementById('blackout');
+const bed = document.getElementById('bed');
+const lightbulb = document.getElementById('lightbulb');
+const shower = document.getElementById('shower');
+const speakers = document.getElementById('speakers');
+const teevee = document.getElementById('teevee');
+const toilet = document.getElementById('toilet');
+const sink = document.getElementById('sink');
+const fridge = document.getElementById('fridge');
+const person = document.getElementById('person');
 
 let isGameRunning = true;
 let timer = 0;
 let game$ = 0;
 let real$ = 0;
+let jumpInterval = null;
 
 function gameLoop() {
   if (!isGameRunning) return;
@@ -37,7 +47,25 @@ setInterval(gameLoop, 1000);
 workButton.addEventListener('click', function () {
   game$++;
   updateMoney();
+  if (!jumpInterval) {
+    jumpInterval = jumpAnimation();
+  }
 });
+
+function jumpAnimation() {
+  let frame = 0;
+  let direction = 1;
+  return setInterval(() => {
+    frame += direction;
+    if (frame >= 10) direction = -1;
+    if (frame < 0) {
+      clearInterval(jumpInterval);
+      jumpInterval = 0;
+      return;
+    }
+    person.style.transform = `translateY(-${1 * frame}%)`;
+  }, 10);
+}
 
 function updateMoney() {
   gameMoney.innerHTML = '$' + game$;
