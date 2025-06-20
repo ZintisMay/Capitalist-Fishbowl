@@ -44,6 +44,7 @@ function gameLoop() {
 
   purchaseBars.innerHTML = '';
   for (let key in PLAYER.PURCHASE) {
+    // @#$@#$ DO NOT DESTRUCTURE FUNCTIONS LOSE CONTEXT
     const { cost, renderPurchaseButton, render } = PLAYER.PURCHASE[key];
 
     // @#$@#$ needs fixing
