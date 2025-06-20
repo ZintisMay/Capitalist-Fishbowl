@@ -3,6 +3,8 @@ import { jumpAnimation } from './js/jumpAnimation.js';
 import { displayStatusBars } from './js/displayStatusBars.js';
 import { playerDies, playerLives } from './js/playerDies.js';
 
+import { PLAYER } from './js/PLAYER.js';
+
 const statusBars = document.getElementById('statusBars');
 const purchaseBars = document.getElementById('purchaseBars');
 const room = document.getElementById('room');
@@ -39,6 +41,14 @@ function gameLoop() {
     PLAYER.STATUS[key].updateThisStat();
     PLAYER.STATUS[key].warnPlayer();
   }
+
+  purchaseBars.innerHTML = '';
+  for (let key in PLAYER.PURCHASE) {
+    const { cost, renderPurchaseButton, render } = PLAYER.PURCHASE[key];
+
+    // @#$@#$ needs fixing
+    renderPurchaseButton(key, purchaseBars);
+  }
   console.log('timer', timer);
 }
 
@@ -62,156 +72,3 @@ function gameOver() {
   isGameRunning = false;
   playerDies();
 }
-
-const PLAYER = {
-  STATUS: {
-    water: {
-      balance: 100,
-      color: 'blue',
-      costPerSecond: 100 / 30,
-      updateThisStat() {
-        this.balance -= this.costPerSecond;
-      },
-      warnPlayer() {
-        if (this.balance <= 0) {
-          gameOver();
-        } else if (this.balance <= 15) {
-          warning('You feel really thirsty');
-        } else if (this.balance <= 30) {
-          warning('You feel thirsty');
-        } else {
-        }
-      },
-    },
-    food: {
-      balance: 100,
-      color: 'green',
-      costPerSecond: 100 / 5 / 60,
-      updateThisStat() {
-        this.balance -= this.costPerSecond;
-      },
-      warnPlayer() {
-        if (this.balance <= 0) {
-          gameOver();
-        } else if (this.balance <= 15) {
-          warning('You feel really hungry');
-        } else if (this.balance <= 30) {
-          warning('You feel hungry');
-        } else {
-        }
-      },
-    },
-    sleep: {
-      balance: 100,
-      color: 'purple',
-      costPerSecond: 100 / 4 / 60,
-      updateThisStat() {
-        this.balance -= this.costPerSecond;
-      },
-      warnPlayer() {
-        if (this.balance <= 0) {
-          gameOver();
-        } else if (this.balance <= 15) {
-          warning('You feel really sleepy');
-        } else if (this.balance <= 30) {
-          warning('You feel sleepy');
-        } else {
-        }
-      },
-    },
-    stress: {
-      balance: 100,
-      color: 'black',
-      costPerSecond: 100 / 30 / 60,
-      updateThisStat() {
-        this.balance -= this.costPerSecond;
-      },
-      warnPlayer() {
-        if (this.balance <= 0) {
-          gameOver();
-        } else if (this.balance <= 15) {
-          warning('You feel really stressed');
-        } else if (this.balance <= 30) {
-          warning('You feel stressed');
-        } else {
-        }
-      },
-    },
-    health: {
-      balance: 100,
-      color: 'red',
-      costPerSecond: 100 / 40 / 60,
-      updateThisStat() {
-        this.balance -= this.costPerSecond;
-      },
-      warnPlayer() {
-        if (this.balance <= 0) {
-          gameOver();
-        } else if (this.balance <= 15) {
-          warning('You feel really unwell');
-        } else if (this.balance <= 30) {
-          warning('You feel unwell');
-        } else {
-        }
-      },
-    },
-  },
-  BILLS: {
-    electric: {
-      balance: 0,
-      costPerWeek: 30,
-      render() {
-        electric.style.display = this.balance > 0 ? 'none' : 'block';
-      },
-    },
-    rent: {
-      balance: 0,
-      costPerWeek: 150,
-      render() {
-        rent.style.display = this.balance > 0 ? 'none' : 'block';
-      },
-    },
-    water: {
-      balance: 0,
-      costPerWeek: 30,
-      render() {
-        water.style.display = this.balance > 0 ? 'none' : 'block';
-      },
-    },
-    toilet: {
-      balance: 0,
-      costPerWeek: 30,
-      render() {
-        toilet.style.display = this.balance > 0 ? 'none' : 'block';
-      },
-    },
-    // doctor: {
-    //   balance: 0,
-    //   costPerWeek: 150,
-    //   render() {
-    //     doctor.style.display = this.balance > 0 ? 'none' : 'block';
-    //   },
-    // },
-    // psychiatrist: {
-    //   balance: 0,
-    //   costPerWeek: 150,
-    //   render() {
-    //     psychiatrist.style.display = this.balance > 0 ? 'none' : 'block';
-    //   },
-    // },
-    television: {
-      balance: 0,
-      costPerWeek: 25,
-      render() {
-        television.style.display = this.balance > 0 ? 'none' : 'block';
-      },
-    },
-    music: {
-      balance: 0,
-      costPerWeek: 15,
-      render() {
-        speakers.style.display = this.balance > 0 ? 'none' : 'block';
-      },
-    },
-  },
-};
