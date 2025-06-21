@@ -25,6 +25,9 @@ body {
 .furniture {
   display: none;
 }
+.furniture:hover {
+  opacity: 0.5;
+}
 
 /* Game Regions */
 #statusBars {

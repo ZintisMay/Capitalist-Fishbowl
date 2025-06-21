@@ -1,3 +1,5 @@
+import { id } from './utils.js';
+
 let jumpInterval = null;
 export function jumpAnimation() {
   if (jumpInterval) return;
@@ -10,6 +12,6 @@ export function jumpAnimation() {
       clearInterval(jumpInterval);
       return;
     }
-    person.style.transform = `translateY(-${1 * frame}%)`;
+    id('person').style.transform = `translateY(-${1 * frame}%)`;
   }, 10);
 }

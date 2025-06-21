@@ -4,10 +4,6 @@ export function updateMoney() {
 }
 
 const cache = {};
-
 export function id(x) {
-  if (cache[x]) return cache[x];
-  const el = document.getElementById(x);
-  cache[x] = el;
-  return el;
+  return cache[x] || (cache[x] = document.getElementById(x));
 }
