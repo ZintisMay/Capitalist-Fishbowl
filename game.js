@@ -1,9 +1,10 @@
-import { warning } from './js/warning.js';
 import { jumpAnimation } from './js/jumpAnimation.js';
 import { displayStatusBars } from './js/displayStatusBars.js';
 import { playerDies, playerLives } from './js/playerDies.js';
 
 import { PLAYER } from './js/PLAYER.js';
+
+import { updateMoney, id } from './js/utils.js';
 
 const statusBars = document.getElementById('statusBars');
 const purchaseBars = document.getElementById('purchaseBars');
@@ -25,51 +26,46 @@ const sink = document.getElementById('sink');
 const fridge = document.getElementById('fridge');
 const person = document.getElementById('person');
 
-let isGameRunning = true;
-let timer = 0;
-let game$ = 0;
-let real$ = 0;
-const TICK_INTERVAL = 1000;
+const GAME_STATS = {
+  isGameRunning: true,
+  timer: 0,
+  money: 1000,
+  realMoney: 0,
+  tickInterval: 1000,
+};
+window.GAME_STATS = GAME_STATS;
 
-setInterval(gameLoop, TICK_INTERVAL);
+setInterval(gameLoop, GAME_STATS.tickInterval);
 
 function gameLoop() {
-  if (!isGameRunning) return;
-  timer++;
+  if (!GAME_STATS.isGameRunning) return;
+  GAME_STATS.timer++;
   displayStatusBars(PLAYER.STATUS);
   for (let key in PLAYER.STATUS) {
     PLAYER.STATUS[key].updateThisStat();
     PLAYER.STATUS[key].warnPlayer();
   }
 
-  purchaseBars.innerHTML = '';
+  id('purchaseBars').innerHTML = '';
   for (let key in PLAYER.PURCHASE) {
     // @#$@#$ DO NOT DESTRUCTURE FUNCTIONS LOSE CONTEXT
-    const { cost, renderPurchaseButton, render } = PLAYER.PURCHASE[key];
+    const item = PLAYER.PURCHASE[key];
 
     // @#$@#$ needs fixing
-    renderPurchaseButton(key, purchaseBars);
+    item.renderPurchaseButton(key, id('purchaseBars'), GAME_STATS.money);
+    item.render();
   }
-  console.log('timer', timer);
+  console.log('timer', GAME_STATS.timer);
 }
 
-function incrementBills() {
-  if (timer % 60 === 0) {
-  }
-}
-workButton.addEventListener('click', function () {
-  if (!isGameRunning) return;
-  game$++;
+id('workButton').addEventListener('click', function () {
+  if (!GAME_STATS.isGameRunning) return;
+  GAME_STATS.money++;
   updateMoney();
   jumpAnimation();
 });
 
-function updateMoney() {
-  gameMoney.innerHTML = '$' + game$;
-  realMoney.innerHTML = '$' + real$;
-}
-
 function gameOver() {
-  isGameRunning = false;
+  GAME_STATS.isGameRunning = false;
   playerDies();
 }

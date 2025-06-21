@@ -1,3 +1,6 @@
+import { warning } from './warning.js';
+import { id } from './utils.js';
+
 export const PLAYER = {
   STATUS: {
     water: {
@@ -93,70 +96,59 @@ export const PLAYER = {
   },
   PURCHASE: {
     toilet: {
-      cost: 30,
+      cost: 20,
       isPurchased: false,
-      renderPurchaseButton(text, target) {
-        if (this.isPurchased) return;
-        // @#$@#$ can refactor to a function, need to pass "this" to function
-        const button = createPurchaseButton(text, this.cost);
-
-        target.appendChild(button);
-        const that = this;
-        // @#$@#$ this and that aren't coming through correctly, need to move this function out and pass in the context
-        button.addEventListener('click', function () {
-          if (game$ > this.cost) {
-            game$ -= this.cost;
-            that.isPurchased = true;
-          }
-        });
-      },
+      renderPurchaseButton,
       render() {
-        toilet.style.display = this.isPurchased ? 'block' : 'none';
+        id('toilet').style.display = this.isPurchased ? 'block' : 'none';
       },
     },
-
-    television: {
-      cost: 30,
+    sink: {
+      cost: 20,
       isPurchased: false,
-      renderPurchaseButton(text, target) {
-        if (this.isPurchased) return;
-        // @#$@#$ can refactor to a function, need to pass "this" to function
-        const button = createPurchaseButton(text, this.cost);
-
-        target.appendChild(button);
-        const that = this;
-        // @#$@#$ this and that aren't coming through correctly, need to move this function out and pass in the context
-        button.addEventListener('click', function () {
-          if (game$ > this.cost) {
-            game$ -= this.cost;
-            that.isPurchased = true;
-          }
-        });
-      },
+      renderPurchaseButton,
       render() {
-        television.style.display = this.isPurchased ? 'block' : 'none';
+        id('sink').style.display = this.isPurchased ? 'block' : 'none';
       },
     },
-    music: {
-      cost: 30,
+    fridge: {
+      cost: 20,
       isPurchased: false,
-      renderPurchaseButton(text, target) {
-        if (this.isPurchased) return;
-        // @#$@#$ can refactor to a function, need to pass "this" to function
-        const button = createPurchaseButton(text, this.cost);
-
-        target.appendChild(button);
-        const that = this;
-        // @#$@#$ this and that aren't coming through correctly, need to move this function out and pass in the context
-        button.addEventListener('click', function () {
-          if (game$ > this.cost) {
-            game$ -= this.cost;
-            that.isPurchased = true;
-          }
-        });
-      },
+      renderPurchaseButton,
       render() {
-        speakers.style.display = this.isPurchased ? 'block' : 'none';
+        id('fridge').style.display = this.isPurchased ? 'block' : 'none';
+      },
+    },
+    shower: {
+      cost: 20,
+      isPurchased: false,
+      renderPurchaseButton,
+      render() {
+        id('shower').style.display = this.isPurchased ? 'block' : 'none';
+      },
+    },
+    bed: {
+      cost: 20,
+      isPurchased: false,
+      renderPurchaseButton,
+      render() {
+        id('bed').style.display = this.isPurchased ? 'block' : 'none';
+      },
+    },
+    teevee: {
+      cost: 100,
+      isPurchased: false,
+      renderPurchaseButton,
+      render() {
+        id('teevee').style.display = this.isPurchased ? 'block' : 'none';
+      },
+    },
+    speakers: {
+      cost: 50,
+      isPurchased: false,
+      renderPurchaseButton,
+      render() {
+        id('speakers').style.display = this.isPurchased ? 'block' : 'none';
       },
     },
   },
@@ -185,9 +177,28 @@ export const PLAYER = {
   },
 };
 
+function renderPurchaseButton(text, target) {
+  if (this.isPurchased) return;
+  if (window.GAME_STATS.money < this.cost) return;
+  // @#$@#$ can refactor to a function, need to pass "this" to function
+  const button = createPurchaseButton(text, this.cost);
+
+  target.appendChild(button);
+  const that = this;
+  // @#$@#$ this and that aren't coming through correctly, need to move this function out and pass in the context
+  button.addEventListener('click', function (e) {
+    if (window.GAME_STATS.money > that.cost) {
+      window.GAME_STATS.money -= that.cost;
+      that.isPurchased = true;
+      e.target.remove();
+      that.render();
+    }
+  });
+}
+
 function createPurchaseButton(text, cost) {
   const el = document.createElement('div');
   el.classList.add('purchaseButton');
-  el.innerHTML = `$${cost}:${text}`;
+  el.innerHTML = `$${cost}: ${text}`;
   return el;
 }
