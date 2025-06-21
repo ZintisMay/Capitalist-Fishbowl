@@ -3,7 +3,7 @@ import { displayStatusBars } from './js/displayStatusBars.js';
 
 import { PLAYER } from './js/PLAYER.js';
 
-import { updateMoney, id } from './js/utils.js';
+import { updateMoney, id, displayPurchaseItems } from './js/utils.js';
 
 const statusBars = document.getElementById('statusBars');
 const purchaseBars = document.getElementById('purchaseBars');
@@ -53,9 +53,9 @@ function gameLoop() {
 id('workButton').addEventListener('click', function () {
   if (!GAME_STATS.isGameRunning) return;
   GAME_STATS.money++;
-  updateMoney();
   jumpAnimation();
-  displayPurchaseItems();
+  updateMoney();
+  displayPurchaseItems(PLAYER.PURCHASE);
 });
 
 function setUpListeners() {
@@ -63,17 +63,5 @@ function setUpListeners() {
     const item = PLAYER.PURCHASE[key];
     console.log('key', key, item);
     item.applyListener();
-  }
-}
-
-function displayPurchaseItems() {
-  id('purchaseBars').innerHTML = '';
-
-  // purchaseable items become visible
-  for (let key in PLAYER.PURCHASE) {
-    // @#$@#$ DO NOT DESTRUCTURE FUNCTIONS LOSE CONTEXT
-    const item = PLAYER.PURCHASE[key];
-    // @#$@#$ needs fixing
-    item.renderPurchaseButton(key, id('purchaseBars'), GAME_STATS.money);
   }
 }

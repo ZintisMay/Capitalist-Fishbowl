@@ -1,5 +1,5 @@
 import { warning } from './warning.js';
-import { id } from './utils.js';
+import { id, displayPurchaseItems, updateMoney } from './utils.js';
 import { playerDies, playerLives } from './playerDies.js';
 import { displayStatusBars } from './displayStatusBars.js';
 
@@ -103,22 +103,6 @@ export const PLAYER = {
     },
   },
   PURCHASE: {
-    toilet: {
-      cost: 20,
-      isPurchased: false,
-      lastUsed: 0,
-      cooldown: 30,
-      targetEl: id('toilet'),
-      render,
-      renderPurchaseButton,
-      applyListener() {
-        this.targetEl.addEventListener('mousedown', () => {
-          if (wasUsedRecently(this)) return;
-          PLAYER.updateStatus('stress', 30);
-          this.lastUsed = new Date();
-        });
-      },
-    },
     sink: {
       cost: 20,
       isPurchased: false,
@@ -136,8 +120,24 @@ export const PLAYER = {
         });
       },
     },
+    toilet: {
+      cost: 30,
+      isPurchased: false,
+      lastUsed: 0,
+      cooldown: 30,
+      targetEl: id('toilet'),
+      render,
+      renderPurchaseButton,
+      applyListener() {
+        this.targetEl.addEventListener('mousedown', () => {
+          if (wasUsedRecently(this)) return;
+          PLAYER.updateStatus('stress', 30);
+          this.lastUsed = new Date();
+        });
+      },
+    },
     fridge: {
-      cost: 20,
+      cost: 40,
       isPurchased: false,
       lastUsed: 0,
       cooldown: 30,
@@ -153,7 +153,7 @@ export const PLAYER = {
       },
     },
     shower: {
-      cost: 20,
+      cost: 50,
       isPurchased: false,
       lastUsed: 0,
       cooldown: 30,
@@ -169,7 +169,7 @@ export const PLAYER = {
       },
     },
     bed: {
-      cost: 20,
+      cost: 60,
       isPurchased: false,
       lastUsed: 0,
       cooldown: 30,
@@ -185,7 +185,7 @@ export const PLAYER = {
       },
     },
     speakers: {
-      cost: 50,
+      cost: 75,
       isPurchased: false,
       lastUsed: 0,
       cooldown: 30,
@@ -255,6 +255,8 @@ function renderPurchaseButton(text, target) {
       that.isPurchased = true;
       e.target.remove();
       that.render();
+      displayPurchaseItems(PLAYER.PURCHASE);
+      updateMoney();
     }
   });
 }

@@ -6,6 +6,9 @@ body {
   overflow: hidden;
   position: relative;
 }
+* {
+  user-select: none;
+}
 
 #blackout {
   display: none;
@@ -37,7 +40,15 @@ body {
   position: absolute;
   top: 0;
   left: 0;
+  outline: 1px solid black;
 }
+#statusBars * {
+  opacity: 0;
+}
+#statusBars:hover * {
+  opacity: 1;
+}
+
 #purchaseBars {
   /* width: 15vmin; */
   /* height: 100px; */
@@ -109,7 +120,7 @@ body {
   border-radius: 50%;
   border: 1px solid black;
   height: 10%;
-  font-size: 30px;
+  font-size: 3.5vmin;
   font-weight: bold;
   background-color: red;
   box-shadow: 0 5px 0 gray;
