@@ -20,7 +20,7 @@ export const PLAYER = {
       },
       warnPlayer() {
         if (this.balance <= 0) {
-          gameOver();
+          gameOver('You died of dehydration');
         } else if (this.balance <= 15) {
           warning('You feel really thirsty');
         } else if (this.balance <= 30) {
@@ -38,7 +38,7 @@ export const PLAYER = {
       },
       warnPlayer() {
         if (this.balance <= 0) {
-          gameOver();
+          gameOver('You died of hunger');
         } else if (this.balance <= 15) {
           warning('You feel really hungry');
         } else if (this.balance <= 30) {
@@ -56,7 +56,7 @@ export const PLAYER = {
       },
       warnPlayer() {
         if (this.balance <= 0) {
-          gameOver();
+          gameOver('You died of sleep deprivation');
         } else if (this.balance <= 15) {
           warning('You feel really sleepy');
         } else if (this.balance <= 30) {
@@ -74,7 +74,7 @@ export const PLAYER = {
       },
       warnPlayer() {
         if (this.balance <= 0) {
-          gameOver();
+          gameOver('You died from stress');
         } else if (this.balance <= 15) {
           warning('You feel really stressed');
         } else if (this.balance <= 30) {
@@ -92,7 +92,7 @@ export const PLAYER = {
       },
       warnPlayer() {
         if (this.balance <= 0) {
-          gameOver();
+          gameOver('You died from poor health');
         } else if (this.balance <= 15) {
           warning('You feel really unwell');
         } else if (this.balance <= 30) {
@@ -217,6 +217,53 @@ export const PLAYER = {
       },
     },
   },
+  BILLS: {
+    rent: {
+      name: 'rent',
+      cost: 50,
+      balance: 50,
+      cooldown: 60,
+      payBill() {
+        this.balance += cost;
+      },
+      checkBill() {
+        if (this.balance === 0) warning(`You must pay your rent`);
+        if (this.balance < 0) {
+          gameOver('You were evicted');
+        }
+      },
+    },
+    electric: {
+      name: 'electric bill',
+      cost: 50,
+      balance: 50,
+      cooldown: 60,
+      payBill() {
+        this.balance += cost;
+      },
+      checkBill() {
+        if (this.balance === 0) warning(`You must pay your electric bill`);
+        if (this.balance < 0) {
+          warning(`Your electricity has been shut off`);
+          id('blackout').style.display = 'block';
+        } else {
+          id('blackout').style.display = 'none';
+        }
+      },
+    },
+    heating: {
+      name: 'heating bill',
+      cost: 50,
+      balance: 50,
+      cooldown: 60,
+      payBill() {
+        this.balance += cost;
+      },
+      checkBill() {
+        if (this.balance === 0) warning(`You must pay your ${this.name}`);
+      },
+    },
+  },
 };
 
 function render() {
@@ -252,8 +299,17 @@ function createPurchaseButton(text, cost) {
   return el;
 }
 
-function gameOver() {
+function gameOver(x) {
   GAME_STATS.isGameRunning = false;
+  const blackoutLayer = id('blackout');
+  blackoutLayer.style.display = 'flex';
+  blackoutLayer.style.zIndex = 1000000;
+  blackoutLayer.innerHTML = x || 'YOU DIED';
+
+  ['statusBars', 'bills', 'gameMoney', 'warnings', 'purchaseBars'].forEach(
+    (item) => (id(item).style.display = 'none')
+  );
+
   playerDies();
 }
 

@@ -17,6 +17,10 @@ body {
   height: 100vh;
   width: 100vw;
   background-color: black;
+  color: red;
+  font-size: 100px;
+  justify-content: center;
+  align-items: center;
 }
 
 .flexCenter {
@@ -38,7 +42,7 @@ body {
   width: 15vmin;
   /* height: 100px; */
   position: absolute;
-  top: 0;
+  bottom: 0;
   left: 0;
 }
 
@@ -93,7 +97,17 @@ body {
   width: 15vmin;
   height: 100px;
   position: absolute;
-  bottom: 0;
+  top: 0;
+  left: 0;
+}
+
+#bills {
+  outline: 1px solid black;
+  /* display: none; */
+  width: 15vmin;
+  height: 100px;
+  position: absolute;
+  top: 0;
   left: 0;
 }
 

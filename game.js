@@ -1,5 +1,6 @@
 import { jumpAnimation } from './js/jumpAnimation.js';
 import { displayStatusBars } from './js/displayStatusBars.js';
+import { displayBills } from './js/displayBills.js';
 
 import { PLAYER } from './js/PLAYER.js';
 
@@ -28,7 +29,7 @@ const person = document.getElementById('person');
 const GAME_STATS = {
   isGameRunning: true,
   timer: 0,
-  money: 0,
+  money: 1000,
   realMoney: 0,
   tickInterval: 1000,
 };
@@ -41,6 +42,8 @@ function gameLoop() {
   if (!GAME_STATS.isGameRunning) return;
   GAME_STATS.timer++;
   displayStatusBars(PLAYER.STATUS);
+  displayPurchaseItems(PLAYER.PURCHASE);
+  displayBills(PLAYER.BILLS);
 
   // Your stats degrade over time
   for (let key in PLAYER.STATUS) {
