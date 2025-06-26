@@ -8,7 +8,7 @@ export const PLAYER = {
     // update, cap at 100
     PLAYER.STATUS[stat].balance += change;
     if (PLAYER.STATUS[stat].balance > 100) PLAYER.STATUS[stat].balance = 100;
-    displayStatusBars();
+    displayStatusBars(PLAYER.STATUS);
   },
   STATUS: {
     water: {
@@ -67,7 +67,7 @@ export const PLAYER = {
     },
     stress: {
       balance: 100,
-      color: 'black',
+      color: 'brown',
       costPerSecond: 100 / 180,
       degrateThisStat() {
         this.balance -= this.costPerSecond;
@@ -217,23 +217,6 @@ export const PLAYER = {
       },
     },
   },
-  // BILLS: {
-  //   electric: {
-  //     balance: 0,
-  //     costPerWeek: 30,
-  //     render,
-  //   },
-  //   rent: {
-  //     balance: 0,
-  //     costPerWeek: 150,
-  //     render,
-  //   },
-  //   water: {
-  //     balance: 0,
-  //     costPerWeek: 30,
-  //     render,
-  //   },
-  // },
 };
 
 function render() {
@@ -245,6 +228,7 @@ function renderPurchaseButton(text, target) {
   if (window.GAME_STATS.money < this.cost) return;
   // @#$@#$ can refactor to a function, need to pass "this" to function
   const button = createPurchaseButton(text, this.cost);
+  button.classList.add('pay');
 
   target.appendChild(button);
   const that = this;

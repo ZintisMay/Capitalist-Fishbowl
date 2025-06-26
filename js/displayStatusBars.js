@@ -33,5 +33,6 @@ function createStatBar(name, val, color) {
   label.style.top = '-.3rem';
   label.style.left = '105%';
   label.innerHTML = name;
+  label.style.textShadow = '1px 1px 0 white';
   return el;
 }
