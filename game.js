@@ -29,7 +29,7 @@ const person = document.getElementById('person');
 const GAME_STATS = {
   isGameRunning: true,
   timer: 0,
-  money: 1000,
+  money: 0,
   realMoney: 0,
   tickInterval: 1000,
 };

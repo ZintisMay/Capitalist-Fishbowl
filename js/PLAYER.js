@@ -20,7 +20,7 @@ export const PLAYER = {
       },
       warnPlayer() {
         if (this.balance <= 0) {
-          gameOver('You died of dehydration');
+          gameOver('of dehydration');
         } else if (this.balance <= 15) {
           warning('You feel really thirsty');
         } else if (this.balance <= 30) {
@@ -38,7 +38,7 @@ export const PLAYER = {
       },
       warnPlayer() {
         if (this.balance <= 0) {
-          gameOver('You died of hunger');
+          gameOver('of hunger');
         } else if (this.balance <= 15) {
           warning('You feel really hungry');
         } else if (this.balance <= 30) {
@@ -56,7 +56,7 @@ export const PLAYER = {
       },
       warnPlayer() {
         if (this.balance <= 0) {
-          gameOver('You died of sleep deprivation');
+          gameOver('of sleep deprivation');
         } else if (this.balance <= 15) {
           warning('You feel really sleepy');
         } else if (this.balance <= 30) {
@@ -74,7 +74,7 @@ export const PLAYER = {
       },
       warnPlayer() {
         if (this.balance <= 0) {
-          gameOver('You died from stress');
+          gameOver('from stress');
         } else if (this.balance <= 15) {
           warning('You feel really stressed');
         } else if (this.balance <= 30) {
@@ -92,7 +92,7 @@ export const PLAYER = {
       },
       warnPlayer() {
         if (this.balance <= 0) {
-          gameOver('You died from poor health');
+          gameOver('from poor health');
         } else if (this.balance <= 15) {
           warning('You feel really unwell');
         } else if (this.balance <= 30) {
@@ -304,7 +304,7 @@ function gameOver(x) {
   const blackoutLayer = id('blackout');
   blackoutLayer.style.display = 'flex';
   blackoutLayer.style.zIndex = 1000000;
-  blackoutLayer.innerHTML = x || 'YOU DIED';
+  blackoutLayer.innerHTML = `<div>YOU DIED<p style="font-size: 30px;">${x}</p></div>`;
 
   ['statusBars', 'bills', 'gameMoney', 'warnings', 'purchaseBars'].forEach(
     (item) => (id(item).style.display = 'none')

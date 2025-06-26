@@ -1,1 +1,1 @@
-export function displayBills() {}
+export function displayBills(BILLS) {}
