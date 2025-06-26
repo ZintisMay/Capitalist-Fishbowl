@@ -234,7 +234,7 @@ function renderPurchaseButton(text, target) {
   const that = this;
   // @#$@#$ this and that aren't coming through correctly, need to move this function out and pass in the context
   button.addEventListener('click', function (e) {
-    if (window.GAME_STATS.money > that.cost) {
+    if (window.GAME_STATS.money >= that.cost) {
       window.GAME_STATS.money -= that.cost;
       that.isPurchased = true;
       e.target.remove();
