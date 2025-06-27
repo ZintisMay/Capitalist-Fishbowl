@@ -1,7 +1,7 @@
 import { gameOver } from './PLAYER.js';
 const BILL_DIV = document.getElementById('bills');
 // const BILL_COOLDOWN = 5;
-const BILL_COOLDOWN = 30;
+const BILL_COOLDOWN = 60;
 
 export function displayBills(BILLS, GAME_STATS) {
   const buttons = [];
@@ -11,7 +11,7 @@ export function displayBills(BILLS, GAME_STATS) {
       const bill = BILLS[key];
       bill.balance -= bill.cost;
       if (bill.balance < 0) {
-        gameOver(bill.name + ' was unpaid');
+        gameOver(bill.gameOverMessage);
       }
     }
   }

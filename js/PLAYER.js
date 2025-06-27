@@ -219,6 +219,7 @@ export const PLAYER = {
   },
   BILLS: {
     rent: {
+      gameOverMessage: 'evicted from your room',
       name: 'rent',
       cost: 50,
       balance: 50,
@@ -234,6 +235,7 @@ export const PLAYER = {
       },
     },
     electric: {
+      gameOverMessage: 'cant work in the dark',
       name: 'electric bill',
       cost: 50,
       balance: 50,
@@ -252,6 +254,7 @@ export const PLAYER = {
       },
     },
     heating: {
+      gameOverMessage: 'from the cold',
       name: 'heating bill',
       cost: 50,
       balance: 50,
