@@ -4,7 +4,8 @@ import { displayBills } from './js/displayBills.js';
 
 import { PLAYER } from './js/PLAYER.js';
 
-import { updateMoney, id, displayPurchaseItems } from './js/utils.js';
+import { updateMoney, id, displayPurchaseItems, rand } from './js/utils.js';
+import { keyAudio } from './js/playAudio.js';
 
 const statusBars = document.getElementById('statusBars');
 const purchaseBars = document.getElementById('purchaseBars');
@@ -29,7 +30,7 @@ const person = document.getElementById('person');
 const GAME_STATS = {
   isGameRunning: true,
   timer: 0,
-  money: 0,
+  money: 1000,
   realMoney: 0,
   tickInterval: 1000,
 };
@@ -43,7 +44,7 @@ function gameLoop() {
   GAME_STATS.timer++;
   displayStatusBars(PLAYER.STATUS);
   displayPurchaseItems(PLAYER.PURCHASE);
-  displayBills(PLAYER.BILLS);
+  displayBills(PLAYER.BILLS, GAME_STATS);
 
   // Your stats degrade over time
   for (let key in PLAYER.STATUS) {
@@ -59,12 +60,12 @@ id('workButton').addEventListener('click', function () {
   jumpAnimation();
   updateMoney();
   displayPurchaseItems(PLAYER.PURCHASE);
+  keyAudio();
 });
 
 function setUpListeners() {
   for (let key in PLAYER.PURCHASE) {
     const item = PLAYER.PURCHASE[key];
-    console.log('key', key, item);
     item.applyListener();
   }
 }

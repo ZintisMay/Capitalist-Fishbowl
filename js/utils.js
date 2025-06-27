@@ -15,7 +15,13 @@ export function displayPurchaseItems(items) {
   }
 }
 
-const cache = {};
+const idCache = {};
 export function id(x) {
-  return cache[x] || (cache[x] = document.getElementById(x));
+  return idCache[x] || (idCache[x] = document.getElementById(x));
+}
+
+export function rand(a, b) {
+  const min = Math.ceil(Math.min(a, b));
+  const max = Math.floor(Math.max(a, b));
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 }

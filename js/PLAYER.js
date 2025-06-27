@@ -2,6 +2,7 @@ import { warning } from './warning.js';
 import { id, displayPurchaseItems, updateMoney } from './utils.js';
 import { playerDies, playerLives } from './playerDies.js';
 import { displayStatusBars } from './displayStatusBars.js';
+import { playAudio } from './playAudio.js';
 
 export const PLAYER = {
   updateStatus(stat, change) {
@@ -115,7 +116,6 @@ export const PLAYER = {
         this.targetEl.addEventListener('mousedown', () => {
           if (wasUsedRecently(this)) return;
           PLAYER.updateStatus('water', 100);
-          console.log(PLAYER.STATUS.water);
           this.lastUsed = new Date();
         });
       },
@@ -299,7 +299,8 @@ function createPurchaseButton(text, cost) {
   return el;
 }
 
-function gameOver(x) {
+export function gameOver(x) {
+  playAudio('youDied');
   GAME_STATS.isGameRunning = false;
   const blackoutLayer = id('blackout');
   blackoutLayer.style.display = 'flex';
