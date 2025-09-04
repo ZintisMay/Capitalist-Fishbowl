@@ -4,6 +4,8 @@ import { playerDies, playerLives } from './playerDies.js';
 import { displayStatusBars } from './displayStatusBars.js';
 import { playAudio } from './playAudio.js';
 
+setInterval(() => console.log(PLAYER), 5000);
+
 export const PLAYER = {
   updateStatus(stat, change) {
     // update, cap at 100
@@ -12,207 +14,147 @@ export const PLAYER = {
     displayStatusBars(PLAYER.STATUS);
   },
   STATUS: {
-    water: {
-      balance: 100,
-      color: 'blue',
-      costPerSecond: 100 / 30,
-      degrateThisStat() {
-        this.balance -= this.costPerSecond;
-      },
-      warnPlayer() {
-        if (this.balance <= 0) {
-          gameOver('of dehydration');
-        } else if (this.balance <= 15) {
-          warning('You feel really thirsty');
-        } else if (this.balance <= 30) {
-          warning('You feel thirsty');
-        } else {
-        }
-      },
-    },
-    food: {
-      balance: 100,
-      color: 'green',
-      costPerSecond: 100 / 90,
-      degrateThisStat() {
-        this.balance -= this.costPerSecond;
-      },
-      warnPlayer() {
-        if (this.balance <= 0) {
-          gameOver('of hunger');
-        } else if (this.balance <= 15) {
-          warning('You feel really hungry');
-        } else if (this.balance <= 30) {
-          warning('You feel hungry');
-        } else {
-        }
-      },
-    },
-    sleep: {
-      balance: 100,
-      color: 'purple',
-      costPerSecond: 100 / 180,
-      degrateThisStat() {
-        this.balance -= this.costPerSecond;
-      },
-      warnPlayer() {
-        if (this.balance <= 0) {
-          gameOver('of sleep deprivation');
-        } else if (this.balance <= 15) {
-          warning('You feel really sleepy');
-        } else if (this.balance <= 30) {
-          warning('You feel sleepy');
-        } else {
-        }
-      },
-    },
-    stress: {
-      balance: 100,
-      color: 'brown',
-      costPerSecond: 100 / 180,
-      degrateThisStat() {
-        this.balance -= this.costPerSecond;
-      },
-      warnPlayer() {
-        if (this.balance <= 0) {
-          gameOver('from stress');
-        } else if (this.balance <= 15) {
-          warning('You feel really stressed');
-        } else if (this.balance <= 30) {
-          warning('You feel stressed');
-        } else {
-        }
-      },
-    },
-    health: {
-      balance: 100,
-      color: 'red',
-      costPerSecond: 100 / 600,
-      degrateThisStat() {
-        this.balance -= this.costPerSecond;
-      },
-      warnPlayer() {
-        if (this.balance <= 0) {
-          gameOver('from poor health');
-        } else if (this.balance <= 15) {
-          warning('You feel really unwell');
-        } else if (this.balance <= 30) {
-          warning('You feel unwell');
-        } else {
-        }
-      },
-    },
+    water: createStatus(
+      'blue',
+      30,
+      'You feel thirsty',
+      'You feel really thirsty',
+      'of dehydration'
+    ),
+    food: createStatus(
+      'green',
+      45,
+      'You feel hungry',
+      'You feel really hungry',
+      'of hunger'
+    ),
+    gottaPee: createStatus(
+      'gold',
+      60,
+      'You have to pee',
+      'You really have to pee',
+      'of holding it in too long'
+    ),
+    sleep: createStatus(
+      'purple',
+      75,
+      'You feel sleepy',
+      'You feel really sleepy',
+      'of sleep deprivation'
+    ),
+    hygeine: createStatus(
+      'orange',
+      90,
+      'You smell a little',
+      'You smell pretty bad',
+      'of stinkiness'
+    ),
+    boredom: createStatus(
+      'aqua',
+      105,
+      'You are a little bored',
+      'You are really bored',
+      'of boredom'
+    ),
+    stress: createStatus(
+      'brown',
+      120,
+      'You feel stressed',
+      'You feel really stressed',
+      'of stress'
+    ),
+    health: createStatus(
+      'red',
+      135,
+      'You feel sick',
+      'You feel really sick',
+      'of a preventable illness'
+    ),
   },
   PURCHASE: {
     sink: {
       cost: 20,
       isPurchased: false,
-      lastUsed: 0,
-      cooldown: 0,
       targetEl: id('sink'),
       render,
       renderPurchaseButton,
       applyListener() {
         this.targetEl.addEventListener('mousedown', () => {
-          if (wasUsedRecently(this)) return;
           PLAYER.updateStatus('water', 100);
-          this.lastUsed = new Date();
-        });
-      },
-    },
-    toilet: {
-      cost: 30,
-      isPurchased: false,
-      lastUsed: 0,
-      cooldown: 30,
-      targetEl: id('toilet'),
-      render,
-      renderPurchaseButton,
-      applyListener() {
-        this.targetEl.addEventListener('mousedown', () => {
-          if (wasUsedRecently(this)) return;
-          PLAYER.updateStatus('stress', 30);
-          this.lastUsed = new Date();
         });
       },
     },
     fridge: {
-      cost: 40,
+      cost: 30,
       isPurchased: false,
-      lastUsed: 0,
-      cooldown: 30,
       targetEl: id('fridge'),
       render,
       renderPurchaseButton,
       applyListener() {
         this.targetEl.addEventListener('mousedown', () => {
-          if (wasUsedRecently(this)) return;
           PLAYER.updateStatus('food', 100);
-          this.lastUsed = new Date();
         });
       },
     },
-    shower: {
-      cost: 50,
+    toilet: {
+      cost: 40,
       isPurchased: false,
-      lastUsed: 0,
-      cooldown: 30,
-      targetEl: id('shower'),
+      targetEl: id('toilet'),
       render,
       renderPurchaseButton,
       applyListener() {
         this.targetEl.addEventListener('mousedown', () => {
-          if (wasUsedRecently(this)) return;
-          PLAYER.updateStatus('stress', 20);
-          this.lastUsed = new Date();
+          PLAYER.updateStatus('holding it in', 100);
         });
       },
     },
     bed: {
-      cost: 60,
+      cost: 50,
       isPurchased: false,
-      lastUsed: 0,
-      cooldown: 30,
       targetEl: id('bed'),
       render,
       renderPurchaseButton,
       applyListener() {
         this.targetEl.addEventListener('mousedown', () => {
-          if (wasUsedRecently(this)) return;
-          PLAYER.updateStatus('sleep', 50);
-          this.lastUsed = new Date();
+          PLAYER.updateStatus('sleep', 100);
+        });
+      },
+    },
+    shower: {
+      cost: 60,
+      isPurchased: false,
+      targetEl: id('shower'),
+      render,
+      renderPurchaseButton,
+      applyListener() {
+        this.targetEl.addEventListener('mousedown', () => {
+          PLAYER.updateStatus('hygeine', 100);
         });
       },
     },
     speakers: {
-      cost: 75,
+      cost: 50,
       isPurchased: false,
-      lastUsed: 0,
-      cooldown: 30,
       targetEl: id('speakers'),
+      isPlaying: false,
       render,
       renderPurchaseButton,
       applyListener() {
         this.targetEl.addEventListener('mousedown', () => {
-          if (wasUsedRecently(this)) return;
-          PLAYER.updateStatus('stress', 15);
-          this.lastUsed = new Date();
+          PLAYER.updateStatus('boredom', 100);
         });
       },
     },
     teevee: {
-      cost: 100,
+      cost: 50,
       isPurchased: false,
-      lastUsed: 0,
-      cooldown: 30,
       targetEl: id('teevee'),
+      isPlaying: false,
       render,
       renderPurchaseButton,
       applyListener() {
         this.targetEl.addEventListener('mousedown', () => {
-          if (wasUsedRecently(this)) return;
-          PLAYER.updateStatus('stress', 15);
-          this.lastUsed = new Date();
+          PLAYER.updateStatus('boredom', 100);
         });
       },
     },
@@ -245,7 +187,7 @@ export const PLAYER = {
       },
       checkBill() {
         if (this.balance === 0) warning(`You must pay your electric bill`);
-        if (this.balance < 0) {
+        if (this.balance <= 0) {
           warning(`Your electricity has been shut off`);
           id('blackout').style.display = 'block';
         } else {
@@ -317,8 +259,26 @@ export function gameOver(x) {
   playerDies();
 }
 
-function wasUsedRecently(that) {
-  let now = new Date();
-  // was used in last 30 seconds?
-  return now - that.lastUsed < 1000 * that.cooldown;
+function createStatus(color, timeDegredation, warn1, warn2, loseMessage) {
+  return {
+    balance: 100,
+    color,
+    costPerSecond: 100 / timeDegredation,
+    warn1,
+    warn2,
+    loseMessage,
+    degrateThisStat() {
+      this.balance -= this.costPerSecond;
+    },
+    warnPlayer() {
+      if (this.balance <= 0) {
+        gameOver(loseMessage);
+      } else if (this.balance <= 15) {
+        warning(warn2);
+      } else if (this.balance <= 30) {
+        warning(warn1);
+      } else {
+      }
+    },
+  };
 }
