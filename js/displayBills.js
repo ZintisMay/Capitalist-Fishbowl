@@ -7,12 +7,14 @@ export function displayBills(BILLS, GAME_STATS) {
   const buttons = [];
 
   if (GAME_STATS.timer % BILL_COOLDOWN === 0) {
+    // remove balance from bills
     for (let key in BILLS) {
       const bill = BILLS[key];
       bill.balance -= bill.cost;
-      if (bill.balance < 0) {
-        gameOver(bill.gameOverMessage);
-      }
+      bill.checkBill();
+      // if (bill.balance < 0) {
+      //   gameOver(bill.gameOverMessage);
+      // }
     }
   }
 
@@ -42,9 +44,9 @@ function renderBillButton(bill, GAME_STATS) {
   // b.style.backgroundColor = 'yellow';
 
   b.addEventListener('click', (e) => {
-    console.log('bill', bill.name);
-    if (bill.balance === 0 && GAME_STATS.money >= bill.cost) {
-      bill.balance += bill.cost;
+    console.log('bill', bill);
+    if (GAME_STATS.money >= bill.cost) {
+      bill.payBill();
       GAME_STATS.money -= bill.cost;
     }
   });

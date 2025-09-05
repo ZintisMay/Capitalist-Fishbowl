@@ -4,7 +4,7 @@ import { playerDies, playerLives } from './playerDies.js';
 import { displayStatusBars } from './displayStatusBars.js';
 import { playAudio } from './playAudio.js';
 
-setInterval(() => console.log(PLAYER), 5000);
+// setInterval(() => console.log(PLAYER), 5000);
 
 export const PLAYER = {
   updateStatus(stat, change) {
@@ -104,7 +104,7 @@ export const PLAYER = {
       renderPurchaseButton,
       applyListener() {
         this.targetEl.addEventListener('mousedown', () => {
-          PLAYER.updateStatus('holding it in', 100);
+          PLAYER.updateStatus('gottaPee', 100);
         });
       },
     },
@@ -132,10 +132,10 @@ export const PLAYER = {
         });
       },
     },
-    speakers: {
-      cost: 50,
+    teevee: {
+      cost: 70,
       isPurchased: false,
-      targetEl: id('speakers'),
+      targetEl: id('teevee'),
       isPlaying: false,
       render,
       renderPurchaseButton,
@@ -145,16 +145,16 @@ export const PLAYER = {
         });
       },
     },
-    teevee: {
-      cost: 50,
+    speakers: {
+      cost: 80,
       isPurchased: false,
-      targetEl: id('teevee'),
+      targetEl: id('speakers'),
       isPlaying: false,
       render,
       renderPurchaseButton,
       applyListener() {
         this.targetEl.addEventListener('mousedown', () => {
-          PLAYER.updateStatus('boredom', 100);
+          PLAYER.updateStatus('stress', 100);
         });
       },
     },
@@ -167,12 +167,24 @@ export const PLAYER = {
       balance: 50,
       cooldown: 60,
       payBill() {
-        this.balance += cost;
+        this.balance += this.cost;
       },
       checkBill() {
         if (this.balance === 0) warning(`You must pay your rent`);
         if (this.balance < 0) {
-          gameOver('You were evicted');
+          const allImages = id('room').querySelectorAll('*');
+          // hide everything but work
+          for (let img of allImages) {
+            if (img.id === 'person') continue;
+            img.style.display = 'none';
+          }
+        } else {
+          const allImages = id('room').querySelectorAll('*');
+          // hide everything but work
+          for (let img of allImages) {
+            if (img.id === 'person') continue;
+            img.style.display = 'block';
+          }
         }
       },
     },
@@ -183,31 +195,30 @@ export const PLAYER = {
       balance: 50,
       cooldown: 60,
       payBill() {
-        this.balance += cost;
+        this.balance += this.cost;
+        id('blackout').style.display = 'none';
       },
       checkBill() {
         if (this.balance === 0) warning(`You must pay your electric bill`);
         if (this.balance <= 0) {
           warning(`Your electricity has been shut off`);
           id('blackout').style.display = 'block';
-        } else {
-          id('blackout').style.display = 'none';
         }
       },
     },
-    heating: {
-      gameOverMessage: 'from the cold',
-      name: 'heating bill',
-      cost: 50,
-      balance: 50,
-      cooldown: 60,
-      payBill() {
-        this.balance += cost;
-      },
-      checkBill() {
-        if (this.balance === 0) warning(`You must pay your ${this.name}`);
-      },
-    },
+    // heating: {
+    //   gameOverMessage: 'from the cold',
+    //   name: 'heating bill',
+    //   cost: 50,
+    //   balance: 50,
+    //   cooldown: 60,
+    //   payBill() {
+    //     this.balance += this.cost;
+    //   },
+    //   checkBill() {
+    //     if (this.balance === 0) warning(`You must pay your ${this.name}`);
+    //   },
+    // },
   },
 };
 

@@ -1,5 +1,8 @@
 export function updateMoney() {
-  gameMoney.innerHTML = '$' + window.GAME_STATS.money;
+  gameMoney.innerHTML = `$${window.GAME_STATS.money}`;
+  moneyPerMinute.innerHTML = `(${Math.floor(
+    (window.GAME_STATS.aggregateMoney / window.GAME_STATS.timer) * 60
+  )} per min)`;
   realMoney.innerHTML = '$' + window.GAME_STATS.realMoney;
 }
 

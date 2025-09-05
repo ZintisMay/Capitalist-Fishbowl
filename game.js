@@ -27,10 +27,13 @@ const sink = document.getElementById('sink');
 const fridge = document.getElementById('fridge');
 const person = document.getElementById('person');
 
+const startingMoney = 0;
+
 const GAME_STATS = {
   isGameRunning: true,
   timer: 0,
-  money: 0,
+  money: startingMoney,
+  aggregateMoney: startingMoney,
   realMoney: 0,
   tickInterval: 1000,
 };
@@ -51,17 +54,31 @@ function gameLoop() {
     PLAYER.STATUS[key].degrateThisStat();
     PLAYER.STATUS[key].warnPlayer();
   }
-  console.log('timer', GAME_STATS.timer);
 }
 
 id('workButton').addEventListener('click', function () {
   if (!GAME_STATS.isGameRunning) return;
   GAME_STATS.money++;
+  GAME_STATS.aggregateMoney++;
   jumpAnimation();
   updateMoney();
   displayPurchaseItems(PLAYER.PURCHASE);
   keyAudio();
 });
+
+// No SpaceBar!
+// window.addEventListener('keydown', (e) => {
+//   console.log('e.keyCode', e.keyCode);
+//   if (isSpace(e.keyCode)) {
+//     id('workButton').click();
+//   }
+//   function isKey(k) {
+//     return k >= 65 && k <= 90;
+//   }
+//   function isSpace(k) {
+//     return k === 32;
+//   }
+// });
 
 function setUpListeners() {
   for (let key in PLAYER.PURCHASE) {
